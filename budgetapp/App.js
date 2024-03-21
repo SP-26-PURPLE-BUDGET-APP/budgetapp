@@ -2,7 +2,10 @@ import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import HomeScreen from "./screens/HomeScreen";
-import LoginScreen from "./screens/LoginScreen";
+
+import SignupScreen from "./screens/SignupScreen";
+import SigninScreen from "./screens/SigninScreen";
+import ResetPassScreen from "./screens/ResetPassScreen";
 
 const Stack= createNativeStackNavigator();
 export default function App() {
@@ -10,7 +13,10 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName='home'>
         <Stack.Screen name="home" component={HomeScreen}/>
-        <Stack.Screen name="login" component={LoginScreen}/>
+        <Stack.Screen name="signin" component={SigninScreen}/>
+        <Stack.Screen name="signup" component={SignupScreen}/>
+        <Stack.Screen name="resetpassword" component={ResetPassScreen}/>
+        
       </Stack.Navigator>
     </NavigationContainer>
   );
