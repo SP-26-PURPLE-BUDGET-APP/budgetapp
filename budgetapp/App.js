@@ -7,6 +7,8 @@ import SignupScreen from "./screens/SignupScreen";
 import SigninScreen from "./screens/SigninScreen";
 import ResetPassScreen from "./screens/ResetPassScreen";
 
+import MainContainer from "./screens/MainContainer";
+
 const Stack= createNativeStackNavigator();
 export default function App() {
   return (
@@ -16,6 +18,7 @@ export default function App() {
         <Stack.Screen name="signin" component={SigninScreen}/>
         <Stack.Screen name="signup" component={SignupScreen}/>
         <Stack.Screen name="resetpassword" component={ResetPassScreen}/>
+        <Stack.Screen name="main" component={MainContainer}/>
         
       </Stack.Navigator>
     </NavigationContainer>

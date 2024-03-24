@@ -6,7 +6,7 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import CustomInput from '../Component/CustomInput';
 
 
-function SigninScreen() {
+function SigninScreen({navigation}) {
 
     const [email, setEmail]=useState("");
     const [password, setPassword]= useState("");
@@ -23,20 +23,21 @@ function SigninScreen() {
             </View>
 
             <View style={styles.contain}>
-                {/*Input Email and password*/}
+                
+            {/*Input Email and password*/}
             <View style={styles.email}>
             <CustomInput placeholder="Email" value={email} setValue={setEmail}/>
             </View>
 
             <View style={styles.password}>
-            <CustomInput placeholder="Password" value={password} setValue={setPassword}/>
+            <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true}/>
             </View>
             
             {/*Sign in button*/}
             <View>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={()=>navigation.navigate("signin")}
+                    onPress={()=>navigation.navigate("main")}
                 >
                     <Text style={styles.text}>Sign in</Text>
                 </TouchableOpacity>
