@@ -1,15 +1,33 @@
 import React from 'react';
 import { useState} from 'react';
-import {Text, StyleSheet, View, Button, TextInput, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, View, Button, TextInput, TouchableOpacity, KeyboardAvoidingView} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons';
 import CustomInput from '../Component/CustomInput';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase';
 
 
 function SigninScreen({navigation}) {
 
     const [email, setEmail]=useState("");
     const [password, setPassword]= useState("");
+    const [loading, setLoading]=useState(false);
+
+
+    const handleSignIn= async ()=>{
+        setLoading(true);
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+            setLoading(false);
+            navigation.navigate('main'); // Navigate to MainDashboard after successful login
+        } catch (error) {
+            setLoading(false);
+            alert("Email or Password do not match.");
+    }
+}
+
 
     return (
         <View style={styles.container}>
@@ -37,9 +55,13 @@ function SigninScreen({navigation}) {
             <View>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={()=>navigation.navigate("main")}
+                    onPress={handleSignIn}
                 >
-                    <Text style={styles.text}>Sign in</Text>
+                    <Text style={styles.text}>
+                    {
+                        loading ? "Loading" : "Sign in"
+                    }
+                    </Text>
                 </TouchableOpacity>
             </View>
 

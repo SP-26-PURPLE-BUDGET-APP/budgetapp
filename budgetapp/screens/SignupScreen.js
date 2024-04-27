@@ -1,13 +1,40 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useState} from 'react';
 import CustomInput from '../Component/CustomInput';
-import LongButton from '../Component/LongButton';
+import { auth, db } from '../firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {doc, setDoc} from "firebase/firestore";
+
+
+
 
 const SignupScreen =()=>{
     const [email, setEmail]=useState("");
     const [name, setName]=useState("");
     const [password,setPassword]=useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [loading, setLoading]= useState(false);
+
+    const handleSignUp = async () =>{
+        if(password!==confirmPassword){
+            alert("Password do not match!");
+            return;
+        }
+        setLoading(true);
+        await createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredentials)=>{
+                setLoading(false);
+                
+                //alert("Account created successfully!");
+                NavigationPreloadManager.navigate('signin');
+                
+            })
+            
+            .catch(error=>alert(error.message));
+
+        
+    }
     return (
         <View style={styles.container}>
 
@@ -25,27 +52,31 @@ const SignupScreen =()=>{
                     <CustomInput placeholder="Email" value={email} setValue={setEmail}/>
                 </View>
                 <View style={styles.password}>
-                    <CustomInput placeholder="Password" value={password} setValue={setPassword}  />
+                    <CustomInput placeholder="Password" value={password} setValue={setPassword} secureTextEntry={true}  />
                 </View>
                 <View style={styles.pass}>
-                    <CustomInput placeholder="Confirm Password" value={password} setValue={setPassword}/>
+                    <CustomInput placeholder="Confirm Password" value={confirmPassword} setValue={setConfirmPassword} secureTextEntry={true}/>
                 </View>
             </View>
 
-            <View style={styles.button}>
-                <LongButton value="Sign up"/>
+            <View style={styles.buttonView}>
+            <TouchableOpacity
+                style={styles.button}
+                onPress={handleSignUp}
+            >
+                <Text style={{color:'#FFFFFF'}}>Sign up</Text>
+            </TouchableOpacity>
             </View>
-
-
-
-
         </View>
+
+
+
+
+
         
 )};
 const styles=StyleSheet.create({
-    contrainer:{
-        justifyContent:'center',
-        alignItems:'center',
+    container:{
         backgroundColor:"#FFFFFF"
         
     },
@@ -79,8 +110,19 @@ const styles=StyleSheet.create({
         top:30,
         alignItems:'center'
     },
+    buttonView:{
+        top:30,
+        alignItems: 'center',
+        justifyContent:'center'
+    },
     button:{
-        top: 50
+        top: 130,
+        width: 300,
+        height:40,
+        backgroundColor: "#A385DB",
+        borderRadius:24,
+        alignItems: 'center',
+        justifyContent:'center'
     }
     
 });
